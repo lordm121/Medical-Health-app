@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MedicalHealth" parent="Theme.Material3.Light.NoActionBar">
+
+    </style>
+
+    <style name="Theme.MedicalHealth" parent="Base.Theme.MedicalHealth">
+        <item name="android:statusBarColor">@color/light_blue</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+</resources>
