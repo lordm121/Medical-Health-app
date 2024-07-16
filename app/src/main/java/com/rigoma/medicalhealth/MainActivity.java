@@ -18,22 +18,29 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private String webUrl = "https://medicalhealth.info";
     private ValueCallback<Uri[]> mUploadMessage;
+    private LinearLayout errorScreen;
+    private View splashScreen, loadingScreen;
+    private Button refreshButton, backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View splashScreen = findViewById(R.id.splash_screen);
-        View loadingScreen = findViewById(R.id.loading_screen);
+        splashScreen = findViewById(R.id.splash_screen);
+        loadingScreen = findViewById(R.id.loading_screen);
         webView = findViewById(R.id.web_view);
-        Button refreshButton = findViewById(R.id.refresh_button);
+        errorScreen = findViewById(R.id.error_screen);
+        refreshButton = findViewById(R.id.refresh_button);
+        backButton = findViewById(R.id.back_button);
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -53,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 loadingScreen.setVisibility(View.VISIBLE);
+                webView.setVisibility(View.VISIBLE);
+                errorScreen.setVisibility(View.GONE);
             }
 
             @Override
@@ -64,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
+                loadingScreen.setVisibility(View.GONE);
+                webView.setVisibility(View.GONE);
+                errorScreen.setVisibility(View.VISIBLE);
                 if (!isNetworkAvailable()) {
                     Toast.makeText(MainActivity.this, "هێڵی ئنتەرنێت نیە تکایە دڵنیا بەرەوە لە هەبوونی ئنتەرنێت", Toast.LENGTH_LONG).show();
                 } else {
@@ -86,6 +98,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 webView.reload();
+            }
+        });
+
+        // Back button logic
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webView.canGoBack()) {
+                    webView.goBack();
+                }
             }
         });
     }
