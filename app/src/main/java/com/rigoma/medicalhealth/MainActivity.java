@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
-    private String webUrl = "https://medicalhealth.info";
+    private String webUrl = "https://medicalhealths.org";
     private ValueCallback<Uri[]> mUploadMessage;
     private LinearLayout errorScreen;
     private View splashScreen, loadingScreen;
